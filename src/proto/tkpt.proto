@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+import "protoc-gen-swagger/options/annotations.proto";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+import "google/protobuf/empty.proto";
+import "google/api/httpbody.proto";
+
+package api.tpkt_service;
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+  info: {
+    title: "TKPT SERVICE";
+    version: "1.1";
+  };
+  schemes: HTTP;
+  schemes: HTTPS;
+  consumes: "application/json";
+  security_definitions: {
+    security: {
+      key: "ApiKeyAuth";
+      value: {
+        type: TYPE_API_KEY;
+        in: IN_HEADER;
+        name: "authorization";
+      }
+    }
+  }
+  security: {
+    security_requirement: {
+      key: "ApiKeyAuth";
+      value: {
+
+      }
+    }
+  }
+};
+
+service TkptServiceAPI {
+  rpc GetAbout (google.protobuf.Empty) returns (About) {
+    option (google.api.http) = {
+      get: "/tkpt-service/about"
+    };
+  };
+}
+
+message About {
+    string content = 1;
+}
